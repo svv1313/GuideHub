@@ -1,0 +1,21 @@
+
+<header ng-controller="Header">
+     <nav class="main-menu">
+        <div class="logo">LOGO</div>
+        <ul>
+            <li><a href="#/">Home</a></li>
+            <li><a href="#/global_map">Map</a></li>
+            <li><a>Users articles</a></li>
+            <li><a>Forum</a></li>
+            <div class="btn-group" ng-if="!isLogged()">
+                <button ng-click="login()">Войти</button>
+                <button ng-click="registration()">Зарегаться</button>
+            </div>
+            <div class="btn-group account" ng-if="isLogged()">
+                <li><a href="#/user-account">Личный кабинет</a></li>
+                <button ng-click="logOut()">Выйти</button>
+            </div>
+
+        </ul>
+    </nav>
+</header>

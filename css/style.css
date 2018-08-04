@@ -1,0 +1,361 @@
+a, a:hover, a:focus {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover{
+    cursor: pointer;
+}
+
+video {
+    position: fixed;
+    width: 100%;
+    
+    z-index: -100;
+    filter: grayscale(100%)
+}
+
+body{
+    margin: 0;
+}
+
+.container {
+    padding-top: 20px;
+}
+
+.siteName{
+    text-align: center;
+    color: yellow;
+    padding-top: 250px;
+}
+
+h1 {
+    font-size: 80px;
+}
+
+h3 {
+    font-size: 30px;
+}
+
+
+/*HEADER*/
+
+header {
+    height: 100%;
+    padding-top: 20px;
+    position: fixed;
+    width: 330px;
+    color: white;
+    left: -280px;
+    transition: 0.5s;
+    z-index: 9999;
+}
+
+header:hover {
+    left: 0;
+}
+
+.logo {
+    color: red;
+    font-size: 30px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.main-menu li {
+    color: grey;
+    font-size: 24px;
+    padding: 30px 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.main-menu .account {
+    padding-left: 45px;
+}
+
+nav button {
+    background: none;
+    font-size: 15px;
+    color: red;
+    border: 1px solid red;
+    border-radius: 5px;
+    float: right;
+    margin-top: 10px;
+}
+
+
+
+
+ /*USERS ACCOUNT styles*/
+
+ .first-row {
+    padding-top: 30px;
+ }
+
+ .user-photo {
+    width: 200px;
+    height: 265px;
+    border-radius: 100px;
+ }
+
+ .user-name {
+    padding-top: 50px;
+ }
+
+ .user-name div:first-child {
+    font-size: 40px;
+ }
+
+ .user-name div:last-child {
+    font-size: 15px;
+ }
+
+ .user-socials ul li {
+    font-size: 35px;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    margin: 0 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: grey;
+    border-radius: 25px;
+    border: 1px solid grey;
+    position: relative;
+ }
+
+ .user-socials ul li i {
+    position: absolute;
+    top: 5px;
+ }
+
+ .user-socials .facebook i {
+    left: 14px;
+ }
+
+ .user-socials .twitter i {
+    left: 7px;
+ }
+
+ .user-socials .instagram i {
+    left: 9px;
+ }
+
+ .user-socials .facebook:hover {
+    background:  #3b5998;
+    color: #fff;
+    border: 1px solid #3b5998;
+ }
+ 
+
+ .user-socials .twitter:hover {
+    background:  #55acee;
+    color: #fff;
+    border: 1px solid #55acee;
+ }
+
+ .user-socials .instagram:hover {
+    background:  radial-gradient(circle at 20% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+    color: #fff;
+    border: 1px solid transparent;
+ }
+ 
+ .user-account-buttons {
+    text-align: center;
+    padding-top: 50px;
+ }
+
+ .plane-trip, .write-article {
+    border: none;
+    padding: 10px;
+    background: #FFD700;
+    margin: 0 200px;
+    outline: none;
+ }
+
+ .plane-trip:hover, .write-article:hover {
+    background: #DAA520;
+ }
+
+ .user-map {
+    padding-top: 50px;
+ }
+
+ .plane-trip-menu ol {
+    padding-bottom: 20px;
+    min-height: 20px;
+    vertical-align: top;
+    background: #eee;
+ }
+
+ .plane-trip-menu ol li  {
+    cursor: move;
+    text-align: left;
+    background: #DCDCDC;
+    margin: 5px 0; 
+    border-radius: 3px;
+    padding: 3px;
+ }
+
+ .angular-google-map-container { 
+    height: 600px;
+    margin-bottom: 50px;
+ }
+
+ .marker_labels {
+    color: white;
+    font-size: 20px;
+ }
+
+
+
+ /*SLIDER Styles*/
+ .arrow {
+    cursor: pointer;
+    display: block;
+    height: 64px;
+    margin-top: -35px;
+    outline: medium none;
+    position: absolute;
+    top: 50%;
+    width: 64px;
+    z-index: 5;
+}
+
+.arrow.prev {
+    background-image: url("../image/prev.png");
+    left: 20px;
+    opacity: 0.2;
+    transition: all 0.2s linear 0s;
+}
+
+.arrow.next {
+    background-image: url("../image/next.png");
+    opacity: 0.2;
+    right: 20px;
+    transition: all 0.2s linear 0s;
+}
+
+.arrow.prev:hover{
+    opacity:1;
+}
+
+.arrow.next:hover{
+    opacity:1;
+}
+
+.nav {
+    bottom: -4px;
+    display: block;
+    height: 48px;
+    left: 0;
+    margin: 0 auto;
+    padding: 1em 0 0.8em;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    width: 100%;
+    z-index: 5;
+}
+
+.nav li {
+    border: 5px solid #AAAAAA;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    margin: 0 8px;
+    position: relative;
+    width: 50px;
+}
+
+.nav li.active {
+    border: 5px solid #FFFFFF;
+}
+
+.nav li img {
+    width: 100%;
+}
+
+.slider {
+    border: 15px solid #FFFFFF;
+    border-radius: 5px;
+    height: 500px;
+    margin: 20px auto;
+    position: relative;
+    width: 800px;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    -ms-perspective: 1000px;
+    -o-perspective: 1000px;
+    perspective: 1000px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.slider img {
+    width: 100%;
+}
+
+.slide.ng-hide-add {
+    opacity:1;
+    -webkit-transition:1s linear all;
+    -moz-transition:1s linear all;
+    -o-transition:1s linear all;
+    transition:1s linear all;
+    -webkit-transform: rotateX(50deg) rotateY(30deg);
+    -moz-transform: rotateX(50deg) rotateY(30deg);
+    -ms-transform: rotateX(50deg) rotateY(30deg);
+    -o-transform: rotateX(50deg) rotateY(30deg);
+    transform: rotateX(50deg) rotateY(30deg);
+    -webkit-transform-origin: right top 0;
+    -moz-transform-origin: right top 0;
+    -ms-transform-origin: right top 0;
+    -o-transform-origin: right top 0;
+    transform-origin: right top 0;
+}
+
+.slide.ng-hide-add.ng-hide-add-active {
+    opacity:0;
+}
+
+.slide.ng-hide-remove {
+    -webkit-transition:1s linear all;
+    -moz-transition:1s linear all;
+    -o-transition:1s linear all;
+    transition:1s linear all;
+    display:block!important;
+    opacity:0;
+}
+
+.slide, .slide.ng-hide-remove.ng-hide-remove-active {
+    opacity:1;
+}
+
+
+
+
+
+
+
+
+
+/* LOGIN form styles */
+
+.login-form {
+
+}

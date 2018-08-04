@@ -1,0 +1,20 @@
+.header-article-city, .header-article-region{
+    background-size: cover;
+    display: block;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Cuprum', sans-serif;
+}
+.header-article-city h1, .header-article-region h1{
+    margin: 0;
+    padding-top: 200px;
+}
+.header-article-city h2, .header-article-region h2{
+    padding-bottom: 200px;
+}
+.comment-article{
+    margin: 0 auto;
+    width: 600px;
+    border: 1px solid black;
+}
