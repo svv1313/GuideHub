@@ -19,7 +19,7 @@ app.config(function($routeProvider,$locationProvider){
                 })
                 .when('/',{
                     templateUrl: 'app/views/homePage.template.html',
-                    controller: ''
+                    controller: 'HomePage'
                 })
                 .when('/user-account', {
                 templateUrl: 'app/views/userAccount.template.html',
