@@ -103,6 +103,15 @@
         };
         // __________________
 
+        // Get  User's Email
+        
+        accountRepository.getUserData(localStorage.getItem('userId')).then(function(response) {
+            $scope.userEmail = response.data.email;
+            console.log($scope.userEmail);
+
+        });
+        // __________________
+
         // Change password/Email
 
         $scope.openChangePass = function() {
@@ -167,6 +176,15 @@
             } else {
                 alert("Пароль введен неверно!");
             }
+        };
+
+
+        $scope.changeEmail = function() {
+         console.log($scope.userEmail);
+            var data = {email: $scope.userEmail};
+            accountRepository.editUserData(localStorage.getItem('userId'), data).then(function(response) {
+               console.log(response);
+            });
         };
 
 

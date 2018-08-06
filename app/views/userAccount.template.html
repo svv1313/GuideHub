@@ -13,25 +13,28 @@
 			<div class="user-name col-md-4">
 				<span ng-show="userNameClick" ng-click="userNameClickHandler_1()">{{userName}}</span>
 				<input type="text" ng-hide="userNameClick" ng-model="userName" ng-keypress="userNameClickHandler_2($event)">
+				<span>{{userEmail}}</span>
 			</div>
 			<div class="change-user-data col-md-5">
-				<div class="change-password">
-					<button class="btn btn-primary" ng-click="openChangePass()">Изменить пароль</button><br>
-					<form id="change-password-form">
-						<input id="oldPassword" type="text" placeholder="Введите старый пароль" ng-model="oldPassword" ng-blur="checkOldPassword()" autocomplete="off"><br>
-						<input id="newPassword" type="text" placeholder="Введите новый пароль" ng-model="newPassword" autocomplete="off"><br>
-						<input id="newPassword2" type="text" placeholder="Повторите новый пароль" ng-model="newPassword2" ng-blur="checkNewPassword()" autocomplete="off"><br>
-						<button class="btn btn-success" ng-click="changePassword()">Подтвердить</button>
-						<button class="btn btn-danger" ng-click="closeChangePass()">Отменить</button>
-					</form>
-				</div>
-				<div class="change-email">
-					<button class="btn btn-primary" ng-click="openChangeEmail()">Изменить Email</button><br>
-					<form id="change-email-form">
-						<input type="text" placeholder="Введите новый Email">
-						<button class="btn btn-success">Подтвердить</button>
-						<button class="btn btn-danger" ng-click="closeChangeEmail()">Отменить</button>
-					</form>
+				<div class="row">
+					<div class="change-password col-md-6">
+						<button class="btn btn-primary" ng-click="openChangePass()">Изменить пароль</button><br>
+						<form id="change-password-form">
+							<input id="oldPassword" type="text" placeholder="Введите старый пароль" ng-model="oldPassword" ng-blur="checkOldPassword()" autocomplete="off"><br>
+							<input id="newPassword" type="text" placeholder="Введите новый пароль" ng-model="newPassword" autocomplete="off"><br>
+							<input id="newPassword2" type="text" placeholder="Повторите новый пароль" ng-model="newPassword2" ng-blur="checkNewPassword()" autocomplete="off"><br>
+							<button class="btn btn-success" ng-click="changePassword()">Подтвердить</button>
+							<button class="btn btn-danger" ng-click="closeChangePass()">Отменить</button>
+						</form>
+					</div>
+					<div class="change-email col-md-6">
+						<button class="btn btn-primary" ng-click="openChangeEmail()">Изменить Email</button><br>
+						<form id="change-email-form" ng-submit="changeEmail()">
+							<input type="email" placeholder="Введите новый Email" required ng-model="userEmail">
+							<button class="btn btn-success" type="submit">Подтвердить</button>
+							<button class="btn btn-danger" ng-click="closeChangeEmail()">Отменить</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

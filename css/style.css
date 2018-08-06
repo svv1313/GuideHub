@@ -247,12 +247,36 @@ nav button {
     text-align: center;
  }
 
+ .change-user-data {
+    padding-top: 55px;
+ }
+
  .change-password, .change-email {
     height: 50%;
  }
 
+ .change-password > button, .change-email > button {
+    margin-bottom: 20px;
+ }
+
  #change-password-form, #change-email-form {
     display: none;
+ }
+
+ #change-password-form input {
+    margin: 10px 0;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid black;
+    background: none;
+ }
+
+ #change-email-form input {
+    margin: 10px 0;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid black;
+    background: none;
  }
 
 
