@@ -73,22 +73,6 @@
         function getComment(){
             staticArticleRepository.getCommentsStaticArticles().then(function(response){
                 console.log(response.data)
-                for (let i = 0; i < response.data.length; i++) {
-                    let strDate = Date.parse(response.data[i].date_added);
-                    let dateObj = new Date(strDate);
-                    let options = {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        weekday: 'long',
-                        timezone: 'UTC',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        second: 'numeric'
-                    };
-                    let date = dateObj.toLocaleString("ru", options);
-                    response.data[i].date_added = date
-                }
                 let commentMod = debugCommentMod(response.data);
                 let userId = +localStorage.getItem('userId');
                 let comments = accesforUser(commentMod, userId, true, 'access');

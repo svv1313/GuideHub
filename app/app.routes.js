@@ -19,10 +19,19 @@ app.config(function($routeProvider,$locationProvider){
                 })
                 .when('/',{
                     templateUrl: 'app/views/homePage.template.html',
-                    controller: 'HomePage'
+                    controller: ''
                 })
                 .when('/user-account', {
-                templateUrl: 'app/views/userAccount.template.html',
-                controller: 'UserAccount'
+                    templateUrl: 'app/views/userAccount.template.html',
+                    controller: 'UserAccount'
                 })
+                .when('/articles-users', {
+                    templateUrl: 'app/views/articles-users.template.html',
+                    controller: 'ArticlesUsers'
+                })
+                .when('/articles/:id', {
+                    templateUrl: 'app/views/article-details.template.html',
+                    controller: 'ArticleDetails'
+                })
+                .otherwise('/')
 })
