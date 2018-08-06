@@ -4,14 +4,18 @@
         <h2>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid officiis sequi </h2>
     </div>
     <div class="container article-city">
-        <span>{{articles.city_description}}</span>
+        <div style="margin: 80px 0 80px 0;border: 1px solid black;padding: 20px;text-align: center;border-radius: 50px;">
+            <span>{{articles.city_description}}</span>
+        </div>
     </div>
     <div class="header-article-region" ng-parallax pattern="'./image/static-article/baselRegion.png'" speed="3" reverse="true">
         <h1>{{articles.region}}</h1>
         <h2>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid officiis sequi </h2>
     </div>
     <div class="container article-region">
-        <span >{{articles.region_description}}</span>
+        <div style="margin: 80px 0 80px 0;border: 1px solid black;padding: 20px;text-align: center;border-radius: 50px;">
+            <span >{{articles.region_description}}</span>
+        </div> 
     </div>
     <div class="add-comment container">
         <textarea name="addComment" cols="90" rows="2" ng-model="newComment.content"></textarea>
@@ -19,20 +23,23 @@
     </div>
     <div class="container comments-article">
         <div class="comment-article" ng-repeat="comment in comments"> 
-            <img ng-src="http://node3.fe.a-level.com.ua/{{comment.user.photo}}" ng-if="comment.user.photo"alt="NO Foto" style="width: 150px; height: 150px; border-radius: 75px 75px">
-            <img ng-src="./image/static-article/nofoto.jpg" ng-if="!comment.user.photo"alt="NO Foto" style="width: 150px; height: 150px; border-radius: 75px 75px">
-            <span>{{comment.user.firstname}}</span>
-            <span>{{comment.user.lastname}}</span>
+            <div class="user_comment">
+                <img ng-src="http://node3.fe.a-level.com.ua/{{comment.user.photo}}" ng-if="comment.user.photo"alt="NO Foto" style="width: 100px; height: 100px; border-radius: 75px 75px">
+                <img ng-src="./image/static-article/nofoto.jpg" ng-if="!comment.user.photo"alt="NO Foto" style="width: 100px; height: 100px; border-radius: 75px 75px">
+                <span>{{comment.user.firstname}}</span>
+            </div>
+            <div class="button_forComment">
+                <button ng-click="deleteComment(comment.id)" class="btn btn-danger" ng-if="comment.access"><i class="glyphicon glyphicon-trash"></i></button>
+                <button ng-click="commentComment(comment.id)" ng-show="!comment.commentMod" ng-if="autoraisMod" class="btn btn-info">Comment</button>
+                <button ng-click="editComment(comment.id, comment.content)" ng-if="comment.access" class="btn btn-success" ng-if="!comment.editMod"><i class="glyphicon glyphicon-pencil"></i></button>
+            </div>
             <span ng-if="!comment.editMod">{{comment.content}}</span>
+            <span>{{comment.date_added}}</span>
             <div ng-if="comment.editMod">
                 <input type="text" ng-model="editObj.content">
                 <button ng-click="addEditComment(comment.id, comment.rate)" class="btn btn-success" ng-if="comment.access"><i class="glyphicon glyphicon-ok"></i></button>
                 <button ng-click="cancelEditComment(comment.id)" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
-            <span>{{comment.date_added}}</span>
-            <button ng-click="deleteComment(comment.id)" class="btn btn-danger" ng-if="comment.access"><i class="glyphicon glyphicon-trash"></i></button>
-            <button ng-click="commentComment(comment.id)" ng-show="!comment.commentMod" ng-if="autoraisMod" class="btn btn-info">Comment</button>
-            <button ng-click="editComment(comment.id, comment.content)" ng-if="comment.access" class="btn btn-success" ng-if="!comment.editMod"><i class="glyphicon glyphicon-pencil"></i></button>
             <div ng-if="comment.commentMod">
                 <input type="text" ng-model="newComment.content">
                 <button ng-click="addCommentComment(comment.id)" class="btn btn-info">Comment</button>
@@ -40,8 +47,8 @@
             </div>
             <div style="padding-left: 30px;" ng-if="comment.nested">
                 <div ng-repeat="comment in comment.nested">
-                    <img ng-src="http://node3.fe.a-level.com.ua/{{comment.user.photo}}" ng-if="comment.user.photo"alt="NO Foto" style="width: 150px; height: 150px; border-radius: 75px 75px">
-                    <img ng-src="./image/static-article/nofoto.jpg" ng-if="!comment.user.photo"alt="NO Foto" style="width: 150px; height: 150px; border-radius: 75px 75px">
+                    <img ng-src="http://node3.fe.a-level.com.ua/{{comment.user.photo}}" ng-if="comment.user.photo"alt="NO Foto" style="width: 100px; height: 100px; border-radius: 75px 75px">
+                    <img ng-src="./image/static-article/nofoto.jpg" ng-if="!comment.user.photo"alt="NO Foto" style="width: 100px; height: 100px; border-radius: 75px 75px">
                         <span>{{comment.user.firstname}}</span>
                         <span>{{comment.user.lastname}}</span>
                         <span ng-if="!comment.editMod">{{comment.content}}</span>
