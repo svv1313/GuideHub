@@ -1,0 +1,4 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'run', 'server' ]
+2 info using npm@3.5.2
+3 info using node@v8.10.0
