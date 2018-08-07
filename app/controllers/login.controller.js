@@ -15,11 +15,12 @@
 
 			$scope.submitLogin = function() { 
 				accountRepository.login($scope.user).then(function(response) {
-					console.log(response.data.password);
+					console.log(response.data);
 					$location.path($location.url() + response.data.id);
 					localStorage.setItem('userPassword', response.data.password);
 					localStorage.setItem('authToken', response.data.authToken);
 					localStorage.setItem('userId', response.data.id);
+					localStorage.setItem('userEmail', response.data.email);
 					$uibModalInstance.close(true);
 				}, function(error) {});
 			}
