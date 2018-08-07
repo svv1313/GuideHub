@@ -1,11 +1,21 @@
+
 (function(){
     'use strict';
 
-    app.controller('UserAccount', ['$scope', 'account.repository', function($scope, accountRepository){
+    app.controller('UserAccount', [
+        '$scope',
+        'account.repository', 
+        'webApi', 
+        '$rootScope', 
+        '$location',
+        '$uibModal',
+        function($scope, accountRepository, webApi, $rootScope, $location, $uibModal){
+
+        $rootScope.path = $location.path();
 
         if (localStorage.getItem("userId")) {
             accountRepository.getUserData(localStorage.getItem("userId")).then(function(response) {
-               
+                // console.log(response.data.photo);
                 if (response.data.firstname) {
                     $scope.userName = response.data.firstname;
                 } else {
@@ -13,7 +23,7 @@
                 }
 
                 if (response.data.photo) {
-                    $scope.userPhoto = response.data.photo;
+                    $scope.userPhoto = webApi.DOMAIN + "/" + response.data.photo;
                 } else {
                     $scope.userPhoto = "./image/unknown.png";
                 }
@@ -25,13 +35,14 @@
 
     	$scope.check = "trip";
         $scope.userNameClick = true;
-        $scope.tripName = "Название";
-        $scope.tripNameClick = true;
-
+        
         // User's photo 
+        $scope.tempInput = "";
+        $scope.aaaa = function() {console.log("aaaaa")}
+
         $scope.changePhoto = function() {
             var input, file, fr, img, result;
-
+            console.log('aaa');
             input = document.getElementById("userPhoto");
             
             file = input.files[0];
@@ -40,12 +51,18 @@
             fr.readAsDataURL(file);
 
             function createImage() {
+
                 img = new Image();
                 // img = $scope.userPhoto;
                 img.onload = imageLoaded;
                 img.src = fr.result;
                 console.log(fr.result);
                 result = fr.result;
+
+                var obj = {"photo": result};
+                accountRepository.editUserData(localStorage.getItem("userId"), obj).then(function(response) {
+                    console.log(response);
+                }, function(error) {});
             }
 
             function imageLoaded() {
@@ -62,44 +79,10 @@
             //     p.innerHTML = msg;
             //     document.body.appendChild(p);
             // }
-            console.log(result);
-            var obj = {"photo": "gjhjghj"};
-            accountRepository.editUserData(localStorage.getItem("userId"), obj).then(function(response) {
-                console.log(response);
-            }, function(error) {});
+            // console.log(result);
+            
         };
-
         // _____________________________
-
-
-        $scope.gallery = [
-            {src: './image/users-photos/image-1.png', desc: 'Image 01'},
-            {src: './image/users-photos/image-2.png', desc: 'Image 02'},
-            {src: './image/users-photos/image-3.png', desc: 'Image 03'},
-            {src: './image/users-photos/image-4.png', desc: 'Image 04'},
-            {src: './image/users-photos/image-5.png', desc: 'Image 05'},
-            {src: './image/users-photos/image-6.png', desc: 'Image 06'},
-            {src: './image/users-photos/image-7.png', desc: 'Image 07'}
-        ];
-
-        $scope._Index = 0;
-
-        $scope.isActive = function(index) {
-            return $scope._Index === index;
-        };
-
-        $scope.showPrev = function() {
-            $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.gallery.length - 1; 
-        };
-
-        $scope.showNext = function() {
-            $scope._Index = ($scope._Index < $scope.gallery.length - 1) ? ++$scope._Index : 0;
-        };
-
-        $scope.showPhoto = function(index) {
-            $scope._Index = index;
-        };
-
 
         // User name handlers
         $scope.userNameClickHandler_1 = function() {
@@ -121,6 +104,100 @@
         };
         // __________________
 
+        // Get  User's Email
+        
+        accountRepository.getUserData(localStorage.getItem('userId')).then(function(response) {
+            $scope.userEmail = response.data.email;
+            console.log($scope.userEmail);
+
+        });
+        // __________________
+
+        // Change password/Email
+
+        $scope.openChangePass = function() {
+            var form = document.getElementById('change-password-form');
+            form.style.display = "block";
+        };
+
+        $scope.closeChangePass = function() {
+            var form = document.getElementById('change-password-form');
+            form.style.display = "none";
+            $scope.oldPassword = "";
+            $scope.newPassword = "";
+            $scope.newPassword2 = "";
+        };
+
+        $scope.openChangeEmail = function() {
+            var form = document.getElementById('change-email-form');
+            form.style.display = "block";
+        };
+
+        $scope.closeChangeEmail = function() {
+            var form = document.getElementById('change-email-form');
+            form.style.display = "none";
+        };
+
+        $scope.oldPassword = "";
+        var oldPasswordConfirm = false;
+
+        $scope.newPassword = "";
+        $scope.newPassword2 = "";
+        var newPasswordConfirm = false;
+
+        $scope.checkOldPassword = function() {
+            console.log($scope.oldPassword);
+            if ($scope.oldPassword !== localStorage.getItem('userPassword')) {
+                document.getElementById('oldPassword').style.border = "1px solid red";
+            } else {
+                document.getElementById('oldPassword').style.border = "1px solid green";
+                oldPasswordConfirm = true;
+            }
+        };
+
+        $scope.checkNewPassword = function() {
+            if ($scope.newPassword !== $scope.newPassword2 || $scope.newPassword === "" && $scope.newPassword2 === "") {
+                document.getElementById('newPassword').style.border = "1px solid red";
+                document.getElementById('newPassword2').style.border = "1px solid red";
+            } else {
+                document.getElementById('newPassword').style.border = "2px solid green";
+                document.getElementById('newPassword2').style.border = "2px solid green";
+                newPasswordConfirm = true;
+            }
+        };
+
+        $scope.changePassword = function() {
+            if (newPasswordConfirm && oldPasswordConfirm) {
+                var data = {
+                    password: $scope.newPassword2
+                };
+                accountRepository.editUserData(localStorage.getItem('userId'), data).then(function(response) {
+                    alert("Пароль успешно изменен!");
+                });
+            } else {
+                alert("Пароль введен неверно!");
+            }
+        };
+
+
+        $scope.changeEmail = function() {
+         console.log($scope.userEmail);
+            var data = {email: $scope.userEmail};
+            accountRepository.editUserData(localStorage.getItem('userId'), data).then(function(response) {
+               console.log(response);
+            });
+        };
+
+
+
+
+        // _____________________________
+
+        
+        //        TRIPS
+
+        $scope.tripNameClick = true;
+
         $scope.tripNameClickHandler_1 = function() {
             $scope.tripNameClick = false;
         };
@@ -131,86 +208,81 @@
             }
         };
 
-        setTimeout(function() {
-            var list1 = document.getElementById('plane-trip-list1');
-            var sortableList1 = Sortable.create(list1, {
-                group: 'plane-trip-group',
-                animation: 300,
-                onAdd: function (evt) {
-                    $scope.sortedPlaceList.push($scope.unsortedPlacesList[evt.item.getAttribute("data-index")]);
-                    $scope.$apply();
-                }
+        $scope.openTripPlanner = function() {
+            var modal = $uibModal.open({
+                    templateUrl: 'app/modal/tripPlanner.template.html',
+                    controller: 'TripPlanner',
+                    size: 'lg'
+                });
+        }
+
+        $scope.usersTrips = [];
+        accountRepository.getTrips(localStorage.getItem('userId')).then(function(response) {
+            for(var i = 0; i < response.data.length; i++) {
+                $scope.usersTrips[i] = response.data[i];
+            }
+            console.log($scope.usersTrips);
+        });
+
+        //delete trip button:
+        $scope.deleteTrip = function(tripId) {
+            accountRepository.deleteTrip(localStorage.getItem('userId'), tripId).then(function(response) {
+                console.log(response);
             });
+        };
 
-            var list2 = document.getElementById('plane-trip-list2');
-            var sortableList2 = Sortable.create(list2, {
-                group: 'plane-trip-group',
-                animation: 300
+        
+        $scope.tripName = "Название";
+        $scope.articles_ids = [];
+
+        $scope.unsortedPlacesList = [];
+        accountRepository.getFavourites(localStorage.getItem('userId')).then(function(response) {
+            for(var i = 0; i < response.data.length; i++) {
+                $scope.unsortedPlacesList[i] = [];
+                $scope.unsortedPlacesList[i][0] = {
+                    id: response.data[i].id,
+                    latitude: response.data[i].location.split(';')[0],
+                    longitude: response.data[i].location.split(';')[1],
+                    title: response.data[i].title
+                };
+            }
+        });
+
+        $scope.savedTrip = {
+            title: $scope.tripName,
+            articles_ids: $scope.articles_ids
+        };
+
+        $scope.addTrip = function() {
+            if ($scope.savedTrip.articles_ids.length === 0) {
+                alert("Вы ничего не добавили в список");
+                return;
+            }
+            accountRepository.addTrip(localStorage.getItem('userId'), $scope.savedTrip).then(function(response) {
+                console.log(response.data);
             });
-        }, 1000);
+        }
 
-       	$scope.planeTrip = function() {
-    		if ($scope.check == "" || $scope.check == "article") {
-    			$scope.check = "trip";
+        $scope.sortedPlaceList = [];
 
-               	return;
-    		}
-    		$scope.check = "";
-    		return;
-    	};
-
-    	$scope.writeArticle = function() {
-    		if ($scope.check == "" || $scope.check == "trip") {
-    			$scope.check = "article";
-    			return;
-    		}
-    		$scope.check = "";
-    		return;
-    	};
-
-        $scope.sortedPlaceList = [
-            
-        ];
-
-        $scope.unsortedPlacesList = [
-            [{
-                id: 1,
-                latitude: 47, 
-                longitude: 9,
-                placeName: "aaaa"
-            }],
-            [{
-                id: 2,
-                latitude: 47.3, 
-                longitude: 9.5,
-                placeName: "bbbb"
-
-            }],
-            [{
-                id: 3,
-                latitude: 46.7, 
-                longitude: 8.5,
-                placeName: "cccc"
-            }],
-            [{
-                id: 4,
-                latitude: 46.3, 
-                longitude: 9.2,
-                placeName: "dddd"
-            }],
-            [{
-                id: 5,
-                latitude: 46.1, 
-                longitude: 8.8,
-                placeName: "eeee"
-            }]
-        ];
+        $scope.showMarkers = function(trip) {
+            $scope.sortedPlaceList = [];
+            for(var i = 0; i < trip.places.length; i++) {
+                $scope.sortedPlaceList[i] = [{
+                    id: trip.places[i].id, 
+                    latitude: trip.places[i].location.split(';')[0], 
+                    longitude: trip.places[i].location.split(';')[1],
+                    title: trip.places[i].title
+                }]; 
+            }
+            console.log($scope.sortedPlaceList);
+        };
 
         $scope.map = { 
             center: { 
-                latitude: 47, 
-                longitude: 9
-            }, 
+                    latitude: 47, 
+                    longitude: 9
+                }, 
             zoom: 8
         };
 
@@ -243,7 +315,64 @@
         $scope.options = {
             scrollwheel: true
         };
+        // ________________________________
+        
 
+        // Users Articles
+
+        // Получение списка статей 
+        accountRepository.getArticles().then(function(response) {
+            $rootScope.writtenArticles = [];
+            for(var i = 0; i < response.data.length; i++) {
+                if (response.data[i].user_id == localStorage.getItem('userId')) {
+                    $rootScope.writtenArticles.push(response.data[i]);
+                }
+            }
+        });
+
+        $rootScope.articleData = {
+            "user_id": localStorage.getItem("userId"),
+            "title": "",
+            "country_travel": "",
+            "location_travel": "",
+            "date_travel": "",
+            "description": "",
+            "images": [],
+            "article_id": ""
+        };
+
+        //Редактировать статью по клику на ней
+        $scope.editArticle = function(article) {
+            $rootScope.sendEditButton = false;
+            $rootScope.articleData.title = article.title;
+            $rootScope.articleData.country_travel = article.country_travel;
+            $rootScope.articleData.location_travel = article.location_travel;
+            $rootScope.articleData.date_travel = new Date(article.date_travel.toString());
+            $rootScope.articleData.description = article.description;
+            $rootScope.articleData.article_id = article.id;
+            var modal = $uibModal.open({
+                templateUrl: 'app/modal/articleEditor.template.html',
+                controller: 'ArticleEditor',
+                size: 'lg',
+                backdrop: false
+            });
+        };
+
+        $scope.deleteArticle = function(article) {
+            console.log(article);
+            accountRepository.deleteArticle(article.id).then(function(response) {
+                console.log(response);
+            });
+        };
+
+        $scope.openArticleEditor = function() {
+            var modal = $uibModal.open({
+                templateUrl: 'app/modal/articleEditor.template.html',
+                controller: 'ArticleEditor',
+                size: 'lg',
+                backdrop: false
+            });
+        }
 
 
     }]);
