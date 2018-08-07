@@ -29,6 +29,7 @@ app.config(function($routeProvider,$locationProvider){
                     templateUrl: 'app/views/articles-users.template.html',
                     controller: 'ArticlesUsers'
                 })
+
                 .when('/articles/:id', {
                     templateUrl: 'app/views/article-details.template.html',
                     controller: 'ArticleDetails'
