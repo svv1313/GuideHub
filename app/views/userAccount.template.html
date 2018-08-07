@@ -1,81 +1,69 @@
-<div class="container">
-	<div class="first-row row">
-		<div class="col-lg-3">
-			<form ng-submit="changePhoto()">
-				<input type="file" id="userPhoto" multiple accept="image/*" name="img">
-				<button type="submit">Submit</button>
-				<img src="{{userPhoto}}" width="220" height="265">
-				<canvas id="canvas"></canvas>
 
-			</form>
-		</div>
-		<div class="user-name col-lg-5">
-			<div>
+<div class="background">
+	<div class="container">
+		<div class="first-row row">
+			<div class="col-md-3">
+				<form ng-submit="changePhoto()">
+					<input type="file" id="userPhoto" multiple accept="image/*" name="img">
+					<button type="submit">Submit</button><br>
+					<img src="{{userPhoto}}">
+					<canvas id="canvas"></canvas>
+
+				</form>
+			</div>
+			<div class="user-name col-md-4">
 				<span ng-show="userNameClick" ng-click="userNameClickHandler_1()">{{userName}}</span>
 				<input type="text" ng-hide="userNameClick" ng-model="userName" ng-keypress="userNameClickHandler_2($event)">
+				<span>{{userEmail}}</span>
 			</div>
-		</div>
-		<div class="user-socials col-lg-4">
-			<span>Follow me</span>
-			<ul>
-				<li class="facebook"><i class="fab fa-facebook-f"></i></li>
-				<li class="twitter"><i class="fab fa-twitter"></i></li>
-				<li class="instagram"><i class="fab fa-instagram"></i></li>
-			</ul>
-		</div>
-	</div>
-
-	<div class="user-account-buttons">
-		<button class="plane-trip" ng-click="planeTrip()">Спланировать поездку</button>
-		<button class="write-article" ng-click="writeArticle()">Написать статью</button>
-		<div class="button-content">
-
-			<div class="plane-trip-menu row" ng-if="check == 'trip'">
-				<div class="col-md-4 col-md-offset-2">
-					<h3>
-						<span ng-show="tripNameClick" ng-click="tripNameClickHandler_1()" >{{tripName}}</span>
-						<input type="text" ng-hide="tripNameClick" ng-model="tripName" ng-keypress="tripNameClickHandler_2($event)">
-					</h3>
-					<ol id="plane-trip-list1">
-						
-					</ol>
+			<div class="change-user-data col-md-5">
+				<div class="row">
+					<div class="change-password col-md-6">
+						<button class="btn btn-primary" ng-click="openChangePass()">Изменить пароль</button><br>
+						<form id="change-password-form">
+							<input id="oldPassword" type="text" placeholder="Введите старый пароль" ng-model="oldPassword" ng-blur="checkOldPassword()" autocomplete="off"><br>
+							<input id="newPassword" type="text" placeholder="Введите новый пароль" ng-model="newPassword" autocomplete="off"><br>
+							<input id="newPassword2" type="text" placeholder="Повторите новый пароль" ng-model="newPassword2" ng-blur="checkNewPassword()" autocomplete="off"><br>
+							<button class="btn btn-success" ng-click="changePassword()">Подтвердить</button>
+							<button class="btn btn-danger" ng-click="closeChangePass()">Отменить</button>
+						</form>
+					</div>
+					<div class="change-email col-md-6">
+						<button class="btn btn-primary" ng-click="openChangeEmail()">Изменить Email</button><br>
+						<form id="change-email-form" ng-submit="changeEmail()">
+							<input type="email" placeholder="Введите новый Email" required ng-model="userEmail">
+							<button class="btn btn-success" type="submit">Подтвердить</button>
+							<button class="btn btn-danger" ng-click="closeChangeEmail()">Отменить</button>
+						</form>
+					</div>
 				</div>
-				<div class="favourites col-md-4">
-					<h3>Избранное</h3>
-					<ol id="plane-trip-list2">
-						<li ng-repeat="place in unsortedPlacesList track by $index" data-index={{$index}}>{{place[0].placeName}}</li>
-					</ol>
-				</div>
-				<div><button>Сохранить</button></div>
 			</div>
-
-			<div class="write-article-menu row" ng-if="check == 'article'">
-				<input type="text" placeholder="Название статьи">
-				<br />
-				<textarea rows="20" cols="100"></textarea>
-			</div>
-
 		</div>
+
+		<div class="articles row">
+			<span>Мои статьи</span>
+			<button class="btn btn-success pull-right" ng-click="openArticleEditor()"><i class="fas fa-plus"></i> Написать статью</button>
+			<br>
+			<ol class="trips-list col-md-6">
+				<li ng-repeat="article in writtenArticles"><span ng-click="editArticle(article)">{{article.title}}</span><button class="btn btn-danger pull-right" ng-click="deleteArticle(article)"><i class="far fa-trash-alt"></i></button></li>
+			</ol>
+		</div>
+
+		<div class="trips row">
+			<span>Мои поездки</span>
+			<button class="btn btn-success pull-right" ng-click="openTripPlanner()"><i class="fas fa-plus"></i> Добавить поездку</button>
+			<br>
+			<ol class="trips-list col-md-6">
+				<li ng-repeat="trip in usersTrips track by $index" data-index={{$index}}><span ng-click="showMarkers(trip)">{{trip.title}}</span><button class="btn btn-danger pull-right" ng-click="deleteTrip(trip.id)"><i class="far fa-trash-alt"></i></button></li>
+			</ol>
+		</div>
+
+
+
+		<!-- <ui-gmap-google-map center='map.center' zoom='map.zoom' draggable="true" options="options" data-arr="sortedPlaceList">
+			<ui-gmap-markers ng-repeat="m in sortedPlaceList track by $index" models="m" coords="'self'" options="{labelClass:'marker_labels', labelAnchor:'12 60', labelContent: m[0].title}" icon="{url: '../../image/resize-marker.png'}">
+			</ui-gmap-markers>
+		</ui-gmap-google-map> -->
+
 	</div>
-
-	<div>
-		<h3>Мои поездки</h3>
-	</div>
-
-	<ui-gmap-google-map center='map.center' zoom='map.zoom' draggable="true" options="options" data-arr="sortedPlaceList">
-		<ui-gmap-markers ng-repeat="m in sortedPlaceList track by $index" models="m" coords="'self'" options="{labelClass:'marker_labels', labelAnchor:'12 60', labelContent: m[0].placeName}">
-		</ui-gmap-markers>
-	</ui-gmap-google-map>
-
-	<div class="container slider">
-		<img ng-repeat="photo in gallery" class="slide" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}">
-		<a class="arrow prev" href="" ng-click="showPrev()"></a>
-		<a class="arrow next" href="" ng-click="showNext()"></a>
-		<ul class="nav">
-        	<li ng-repeat="photo in gallery" ng-class="{'active':isActive($index)}">
-               <img ng-src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index)"/>
-        </ul>
-	</div>
-	
-
 </div>
